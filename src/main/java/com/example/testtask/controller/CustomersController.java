@@ -2,9 +2,11 @@ package com.example.testtask.controller;
 
 import com.example.testtask.dao.CustomerDAO;
 import com.example.testtask.models.Customer;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -37,7 +39,11 @@ public class CustomersController {
         return "customers/new";
     }
     @PostMapping
-    public String create(@ModelAttribute("customer") Customer customer) {
+    public String create(@ModelAttribute("customer") @Valid Customer customer,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            return "customers/new";
+
         customerDAO.save(customer);
         return "redirect:/customers";
     }
@@ -49,7 +55,12 @@ public class CustomersController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("customer") Customer customer, @PathVariable("id") int id){
+    public String update(@ModelAttribute("customer") @Valid Customer customer,
+                         BindingResult bindingResult,
+                         @PathVariable("id") int id){
+        if (bindingResult.hasErrors())
+            return "customers/edit";
+
         customerDAO.update(id, customer);
         return "redirect:/customers";
     }

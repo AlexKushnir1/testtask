@@ -9,12 +9,15 @@
 <form th:method="POST" th:action="@{/customers}" th:object="${customer}">
     <label for="fullName">Enter FullName: </label>
     <input type="text" th:field="*{fullName}" id="fullName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">FullName error</div>
     <br/>
     <label for="email">Enter email: </label>
     <input type="text" th:field="*{email}" id="email"/>
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
     <br/>
     <label for="phone">Enter phone: </label>
     <input type="text" th:field="*{phone}" id="phone"/>
+    <div style="color:red" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone error</div>
     <br/>
     <input type="submit" value="Create!"/>
 </form>
